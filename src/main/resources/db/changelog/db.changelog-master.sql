@@ -1,7 +1,7 @@
 --liquibase formatted sql
 
---changeset migration:1
-CREATE TABLE IF NOT EXISTS item
+--changeset migration:2
+CREATE TABLE IF NOT EXISTS task
 (
     id          INT PRIMARY KEY,
     title       TEXT,

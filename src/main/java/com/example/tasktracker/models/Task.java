@@ -9,7 +9,7 @@ enum Priority {
 }
 
 @Entity
-public record Item(@Id @GeneratedValue(strategy = GenerationType.AUTO) Long id, String title, String description,
+public record Task(@Id @GeneratedValue(strategy = GenerationType.AUTO) Long id, String title, String description,
                    Boolean completed, Priority priority, Date dueDate) {
     public Long getId() {
         return id;
@@ -17,6 +17,6 @@ public record Item(@Id @GeneratedValue(strategy = GenerationType.AUTO) Long id, 
 
     @Override
     public String toString() {
-        return String.format("Item[id = %d, title = %s, description = %s, completed = %b, priority = %s, dueDate = %s", id, title, description, completed, priority, dueDate.toString());
+        return String.format("Task[id = %d, title = %s, description = %s, completed = %b, priority = %s, dueDate = %s", id, title, description, completed, priority, dueDate.toString());
     }
 }
