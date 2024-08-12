@@ -1,4 +1,5 @@
 # Build cmd
+# ./gradlew bootBuildImage --imageName=dhzdhd/task-tracker-docker
 # docker build -t dhzdhd/task-tracker-docker .
 
 FROM openjdk:17-jdk-alpine

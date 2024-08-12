@@ -1,6 +1,8 @@
 --liquibase formatted sql
+--changeset migration:4
 
---changeset migration:2
+CREATE SEQUENCE task_seq START 1;
+
 CREATE TABLE IF NOT EXISTS task
 (
     id          INT PRIMARY KEY,
