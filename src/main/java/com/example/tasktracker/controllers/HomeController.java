@@ -25,10 +25,12 @@ public class HomeController {
     }
     
     @PostMapping("/home")
-    public String createTask(@ModelAttribute("tasks") List<Task> tasks, Model model) {
-        repository.saveAll(tasks);
+    public String createTask(Task task, Model model) {
+        repository.save(task);
         
-        return "home";
+        System.out.println(task);
+        
+        return "redirect:/home";
     }
     
     @DeleteMapping("/home")

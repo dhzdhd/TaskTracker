@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en" class="dark">
 <body>
+
+<!-- Header -->
 <header th:fragment="header" class="rounded-lg shadow bg-gray-900 m-0">
     <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
         <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
@@ -16,6 +18,7 @@
     </nav>
 </header>
 
+<!-- Delete Modal -->
 <div th:fragment="delete-modal (id)" id="deleteModal" tabindex="-1" aria-hidden="true"
      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
     <div class="relative p-4 w-full max-w-md h-full md:h-auto">
@@ -54,6 +57,7 @@
     </div>
 </div>
 
+<!-- Create modal -->
 <div th:fragment="create-modal" id="createModal" tabindex="-1" aria-hidden="true"
      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
@@ -77,25 +81,27 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form action="/api/v1/tasks">
+<!--            <form th:hx-post="'/home'" th:hx-swap="'none'">-->
+            <form action="/home" th:action="@{/home}" th:object="${Task}" method="post">
                 <div class="grid gap-4 mb-4 sm:grid-cols-2">
                     <div class="col-span-2">
                         <label for="title"
                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
                         <input type="text" name="title" id="title"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                               placeholder="Type task title" required="">
+                               placeholder="Type task title" required>
                     </div>
                     <div>
                         <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Due
                             Date</label>
                         <input type="date" name="date" id="date"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                               placeholder="$2999" required="">
+                               placeholder="$2999" required>
                     </div>
                     <div>
                         <label for="priority" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Priority</label>
                         <select id="priority"
+                                required
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             <option selected="">Select priority</option>
                             <option value="TV">P1</option>
@@ -107,6 +113,7 @@
                     <div class="sm:col-span-2">
                         <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                         <textarea id="description" rows="4"
+                                  required
                                   class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                   placeholder="Write task description here"></textarea>
                     </div>
@@ -122,6 +129,35 @@
     </div>
 </div>
 
+<!-- No tasks yet header -->
 <h2 th:fragment="no-tasks-yet" class="w-full text-center text-xl font-bold">No tasks yet</h2>
+
+<!-- Task item -->
+<div th:fragment="task (task)" class="flex items-center py-2">
+    <!-- Title -->
+    <div class="flex-1 min-w-0">
+        <p th:text="${task.title}"
+           class="text-xl font-medium text-gray-900 truncate dark:text-white">
+            Task 1
+        </p>
+    </div>
+    <!-- Checkbox -->
+    <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+        <input th:value="${task.completed}" id="checked-checkbox" type="checkbox" value=""
+               class="w-10 h-10 text-2xl text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+    </div>
+    <!-- Delete button -->
+    <div class="flex justify-center">
+        <button id="deleteButton" data-modal-target="deleteModal"
+                data-modal-toggle="deleteModal"
+                class="block ml-3 w-10 h-10 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm text-center dark:focus:ring-primary-800"
+                type="button">
+            <svg class="h-6 w-6 m-auto" fill="currentColor" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
+                <path d="M 24 4 C 20.491685 4 17.570396 6.6214322 17.080078 10 L 6.5 10 A 1.50015 1.50015 0 1 0 6.5 13 L 8.6367188 13 L 11.15625 39.029297 C 11.43025 41.862297 13.785813 44 16.632812 44 L 31.367188 44 C 34.214187 44 36.56875 41.862297 36.84375 39.029297 L 39.363281 13 L 41.5 13 A 1.50015 1.50015 0 1 0 41.5 10 L 30.919922 10 C 30.429604 6.6214322 27.508315 4 24 4 z M 24 7 C 25.879156 7 27.420767 8.2681608 27.861328 10 L 20.138672 10 C 20.579233 8.2681608 22.120844 7 24 7 z M 19.5 18 C 20.328 18 21 18.671 21 19.5 L 21 34.5 C 21 35.329 20.328 36 19.5 36 C 18.672 36 18 35.329 18 34.5 L 18 19.5 C 18 18.671 18.672 18 19.5 18 z M 28.5 18 C 29.328 18 30 18.671 30 19.5 L 30 34.5 C 30 35.329 29.328 36 28.5 36 C 27.672 36 27 35.329 27 34.5 L 27 19.5 C 27 18.671 27.672 18 28.5 18 z"></path>
+            </svg>
+        </button>
+    </div>
+    <div th:replace="~{fragments :: delete-modal (id=${task.id})}"></div>
+</div>
 </body>
 </html>

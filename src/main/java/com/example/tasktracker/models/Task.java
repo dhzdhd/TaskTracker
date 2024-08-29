@@ -54,6 +54,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("Task[id = %d, title = %s, description = %s, completed = %b, priority = %s, dueDate = %s", id, title, description, completed, priority, dueDate.toString());
+        return String.format("Task[id = %d, title = %s, description = %s, completed = %b, priority = %s, dueDate = %s", id, title, description, completed, priority, dueDate != null ? dueDate.toString(): null);
     }
 }
