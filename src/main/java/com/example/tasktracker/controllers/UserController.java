@@ -10,9 +10,8 @@ import java.util.UUID;
 @RestController
 public class UserController {
     @GetMapping
-    public User getUser(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password, @RequestParam(value = "email") String email) {
+    public void getUser(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password, @RequestParam(value = "email") String email) {
         var uuid = UUID.randomUUID().toString();
 //        Hash password
-        return new User(uuid, name, password, email);
     }
 }

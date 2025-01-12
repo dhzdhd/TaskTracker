@@ -3,30 +3,40 @@ package com.example.tasktracker.models;
 import java.util.Date;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-@Table(name = "task")
+@Table(name = "tasks")
 @Entity
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "task_seq_gen")
     @SequenceGenerator(name = "task_seq_gen", sequenceName = "task_seq", allocationSize = 1)
-    public Long id;
-    public String title;
-    public String description;
-    public Boolean completed;
-    public Priority priority;
-    public Date dueDate;
-    
-    public Task(Long id, String title, String description, Boolean completed, Priority priority, Date dueDate) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.completed = completed;
-        this.priority = priority;
-        this.dueDate = dueDate;
-    }
+    @Column(nullable = false)
+    private Long id;
 
-    public Task() { }
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private Boolean completed;
+
+    @Column(nullable = false)
+    private Priority priority;
+
+    @Column(nullable = false)
+    private Date dueDate;
+
+    @CreationTimestamp
+    @Column(updatable = false, name = "created_at")
+    private Date createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
     public Long getId() {
         return id;
